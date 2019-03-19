@@ -1,0 +1,34 @@
+// side bar
+.main-sidebar
+  .sidebar
+    %ul.sidebar-menu{"data-widget" => "tree"}
+
+      -if user_signed_in?
+        
+        - if can? :write, :all
+          %h3 Import Data
+          %ul.nav.flex-column
+            %li= link_to "Import PICA Evaluation Data", import_evaluation_index_path
+            %li= link_to "Import GPR Distribution Data", import_gpr_evaluation_index_path
+            %li= link_to "Import Course Names", import_course_name_index_path
+            %li= link_to "Add Paper Evaluation", new_evaluation_path
+            %li= link_to "Import Historical Data", import_history_evaluation_index_path
+        
+        - if can? :read, :all
+          %h3 View Data
+          %ul.nav.flex-column
+            %li= link_to "View Evaluation Data", evaluation_index_path
+            %li= link_to "View Faculty FPR Data", instructor_index_path
+            %li= link_to "View Missing Data", missing_data_evaluation_index_path
+            %li= link_to "View Course Names", course_name_index_path
+          
+          
+        - if can? :manage, :all
+          %h3 Manage User
+          %ul.nav.flex-column
+            %li= link_to "User Management Panel", admin_index_path
+          
+        // %li= link_to "Sign out", destroy_user_session_path, method: :delete
+        
+      - else
+        %li= link_to "Sign In To Begin", new_user_session_path

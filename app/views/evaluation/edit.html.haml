@@ -1,0 +1,55 @@
+%h1 Evaluation data:
+
+= javascript_include_tag 'evaluation', 'data-turbolinks-track' => true
+= form_for @evaluation, method: :put, html: { class: "form-horizontal" } do |f|
+  .form-group
+    %label.col-sm-2.control-label Term
+    .col-sm-4
+      %p.form-control-static= @evaluation.term
+
+    %label{for: "evaluation_subject", class: "col-sm-2 control-label"} Subject
+    .col-sm-4
+      %p.form-control-static= @evaluation.subject
+
+  .form-group
+    %label{for: "evaluation_course", class: "col-sm-2 control-label"} Course
+    .col-sm-4
+      %p.form-control-static= @evaluation.course
+
+    %label{for: "evaluation_section", class: "col-sm-2 control-label"} Section
+    .col-sm-4
+      %p.form-control-static= @evaluation.section
+
+  .form-group
+    = render partial: 'evaluation/enrollment.html.haml', :locals => {:f => f}
+
+    #instructor_select_wrapper
+      %label{for: "evaluation_instructor_id", class: "col-sm-2 control-label"} Instructor
+      .col-sm-4
+        = f.select "instructor_id", @instructors, {}, class: "form-control"
+
+    #instructor_name_wrapper{style: "display: none"}
+      %label{for: "evaluation_instructor", class: "col-sm-2 control-label"} Name
+      .col-sm-4
+        = f.text_field :instructor, class: "form-control", placeholder: "e.g. Walter Daugherity", value: nil
+        %p.help-block
+          %a#cancel_manual_instructor_entry{href: "#"} Cancel
+
+  = render partial: 'evaluation/items.html.haml', :locals => {:f => f}
+
+  .form-group
+    %label{for: "evaluation_gpr", class: "col-sm-2 control-label"} GPR
+    .col-sm-4
+      = f.text_field :gpr, class: "form-control", placeholder: "e.g. 4.0"
+    
+    %label{for: "evaluation_responses", class: "col-sm-2 control-label"} Responses
+    .col-sm-4
+      = f.text_field  :responses, class: "form-control", placeholder: "e.g. 50"
+      
+  .form-group
+    .col-sm-4.col-sm-offset-2
+      = f.submit "Done", class: "btn btn-primary"
+      = link_to "Cancel", evaluation_index_path, class: "btn btn-primary"
+
+    .col-sm-6.text-right
+      = link_to "Delete Evaluation", evaluation_path(@evaluation), method: :delete, class: "btn btn-danger"

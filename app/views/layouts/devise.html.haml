@@ -1,0 +1,7 @@
+- content_for :content do
+  .outer
+    .middle
+      .inner.well
+        = yield
+
+= render template: "layouts/application"

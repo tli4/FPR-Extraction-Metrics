@@ -1,0 +1,50 @@
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title FacultyReportPreparation
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+    
+
+  %body{:class => "hold-transition skin-blue sidebar-mini"}
+    %div{:class => "wrapper"}
+    
+      // header
+      %header{:class => "main-header"}
+        // Logo
+        %a.logo{:href => "https://engineering.tamu.edu/cse/index.html"}
+          / logo for regular state and mobile devices
+          %span.logo-lg
+            %b> TAMU CSE
+
+        
+        // Header Navbar: style can be found in header.less
+        %nav{:class => "navbar navbar-static-top"}
+          .navbar-custom-menu
+            %ul.nav.navbar-nav
+              - if user_signed_in?
+                %li{role: "presentation"}
+                  = link_to "Home", "/" # root_path
+                %li{role: "presentation"}
+                  - if user_signed_in?
+                    = link_to "Sign out", destroy_user_session_path, method: :delete
+                  - else
+                    = link_to "Sign in", new_user_session_path
+
+      // content
+      .content-wrapper
+        // Content Header (Page header)
+        %section.content-header
+          %h1 Teaching Evaluation Scores
+          
+        %section.content
+          - if notice.present?
+            %div.alert.alert-info= notice
+          - if alert.present?
+            %div.alert.alert-warning= alert
+          - unless can? :read, :all
+            %div.alert.alert-info= "please ask an administrator to authorize your account"
+
+      // side bar:
+      = yield
