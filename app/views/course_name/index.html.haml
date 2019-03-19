@@ -1,0 +1,17 @@
+%h2 Course Names:
+
+%table.table.table-condensed
+  %tr
+    %th Course
+    %th Name
+  - @courses.each do |course|
+    %tr
+      %td= course.subject_course
+      %td
+        = course.course_name
+        - if can? :write, :all
+          (
+          = link_to((course.has_course_name? ? "Edit" : "Add Course Name"), new_course_name_path(subject_course: course.subject_course, return_to: course_name_index_path))
+          )
+
+

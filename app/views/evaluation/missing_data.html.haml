@@ -1,0 +1,60 @@
+%p.text-right
+  .pull-right
+    = link_to "Back to Evaluation Data", evaluation_index_path, class: "btn btn-primary"
+%h1 Missing Data Table: 
+
+%table.table.table-condensed
+  %thead
+    %tr
+      %th
+        - if can? :write, :all
+          %th.light-gray-highlight Edit
+        %th.light-gray-highlight Term
+        %th.light-gray-highlight Subject
+        %th.light-gray-highlight Course Name
+        %th.light-gray-highlight Course  
+        %th.light-gray-highlight Section
+        %th.light-gray-highlight Instructor
+        %th.light-gray-highlight Responses
+        %th.light-gray-highlight Enrollment
+        - (1..8).each do |num|
+          %th.light-gray-highlight
+            = "Item #{num}"
+        %th.light-gray-highlight GPR
+        %th.light-gray-highlight 
+
+        %th
+
+  %tbody
+    - @evaluation_groups.each do |group|
+      - group.each do |evaluation|
+        %tr
+          %td
+          - if can? :write, :all
+            %td
+              = link_to "Edit", edit_evaluation_path(evaluation)
+          %td
+            = evaluation.term
+          %td
+            = evaluation.subject
+          %td
+            = evaluation.course_name  
+          %td
+            = evaluation.course.to_s + is_honors(evaluation.section)
+          %td
+            = evaluation.section
+          %td
+            - if evaluation.instructor.present?
+              = link_to evaluation.instructor.name, instructor_path(id: evaluation.instructor.id)
+          %td
+            = evaluation.responses
+          %td{ class: (evaluation.enrollment.nil? ? "highlighted" : "" ) }
+            = evaluation.enrollment
+          - (1..8).each do |num|
+            %td{ class: (evaluation.method("item#{num}_mean".to_sym).call.nil? ? "highlighted" : "" ) }
+              = evaluation.method("item#{num}_mean".to_sym).call
+          %td{ class: (evaluation.gpr.nil? ? "highlighted" : "" ) }
+            = evaluation.gpr
+      %tr
+        %td{colspan: 1}
+        %td.gray-highlight{colspan: 19}

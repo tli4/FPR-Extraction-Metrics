@@ -1,0 +1,52 @@
+%h1 Evaluation data:
+= javascript_include_tag 'evaluation', 'data-turbolinks-track' => true
+
+
+= form_for :evaluation, url:{:controller=>'evaluation', :action=>'create'}, method: :post, html: { class: "form-horizontal" } do |f|
+  .form-group
+    %label{for: "evaluation_term", class: "col-sm-2 control-label"} Term
+    .col-sm-4
+      = f.text_field :term, class: "form-control", placeholder: "e.g. 2015C", required: true
+      
+    %label{for: "evaluation_subject", class: "col-sm-2 control-label"} Subject
+    .col-sm-4
+      = f.text_field :subject, class: "form-control", placeholder: "e.g. CSCE", required: true
+    
+
+  .form-group
+    %label{for: "evaluation_course", class: "col-sm-2 control-label"} Course
+    .col-sm-4
+      = f.text_field :course, class: "form-control", placeholder: "e.g. 121", required: true
+
+
+    %label{for: "evaluation_section", class: "col-sm-2 control-label"} Section
+    .col-sm-4
+      = f.text_field :section, class: "form-control", placeholder: "e.g. 501", required: true 
+     
+  .form-group 
+    %label{for: "evaluation_responses", class: "col-sm-2 control-label"} Responses
+    .col-sm-4
+      = f.text_field :responses, class: "form-control", placeholder: "e.g. 50", required: true
+      
+
+    = render partial: 'evaluation/enrollment.html.haml', :locals => {:f => f}
+    
+
+  .form-group
+    #instructor_select_wrapper
+      %label{for: "evaluation_instructor_id", class: "col-sm-2 control-label"} Instructor
+      .col-sm-4
+        = f.select "instructor_id", @instructors, {}, class: "form-control"
+    #instructor_name_wrapper{style: "display: none"}
+      %label{for: "evaluation_instructor", class: "col-sm-2 control-label"} Name
+      .col-sm-4
+        = f.text_field :instructor, class: "form-control", placeholder: "e.g. Walter Daugherity"
+        %p.help-block
+          %a#cancel_manual_instructor_entry{href: "#"} Cancel
+    
+
+  = render partial: 'evaluation/items.html.haml', :locals => {:f => f}
+  .form-group
+    .col-sm-10.col-sm-offset-2
+      = f.submit "Add Evaluation", class: "btn btn-primary"
+      = link_to "Cancel", root_path, class: "btn btn-primary"

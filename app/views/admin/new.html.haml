@@ -1,0 +1,19 @@
+%h2 Create User
+= form_for(@user, as: @user, url: admin_path(@user)) do |f|
+  .form-group
+    = f.label :email
+    %br/
+    = f.email_field :email, autofocus: true, class: "form-control"
+  .form-group
+    = f.label :password
+    - if @minimum_password_length
+      %em
+        (#{@minimum_password_length} characters minimum)
+    %br/
+    = f.password_field :password, autocomplete: "off", class: "form-control"
+  .form-group
+    = f.label :password_confirmation
+    %br/
+    = f.password_field :password_confirmation, autocomplete: "off", class: "form-control"
+  .actions
+    = f.submit "Create User", class: "btn btn-primary"

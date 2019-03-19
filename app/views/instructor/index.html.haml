@@ -1,0 +1,51 @@
+%h1 &nbsp;Instructors List
+%h3 &nbsp;&nbsp;Current
+.row
+  .col-md-4
+    %ul
+    = form_tag instructor_index_path, method: :post do
+      - inst_list("status = 'Current'").each  do |instructor|
+        = check_box_tag "instructor_ids[]", instructor.id
+        = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
+        %br
+      = select_tag :status, options_for_select(["Inactive", "Current", "Courtesy"], "Current"), class: "form-control"
+      = submit_tag "Update", class: "btn btn-primary"
+        
+        
+%h3 &nbsp;&nbsp;Courtesy
+.row
+  .col-md-4
+    %ul
+    = form_tag instructor_index_path, method: :post do
+      - inst_list("status = 'Courtesy'").each  do |instructor|
+        = check_box_tag "instructor_ids[]", instructor.id
+        = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
+        %br
+      = select_tag :status, options_for_select(["Inactive", "Current", "Courtesy"], "Courtesy"), class: "form-control"
+      = submit_tag "Update", class: "btn btn-primary"
+
+              
+%h3 &nbsp;&nbsp;Inactive
+.row
+  .col-md-4
+    %ul
+    = form_tag instructor_index_path, method: :post do
+      - inst_list("status = 'Inactive'").each  do |instructor|
+        = check_box_tag "instructor_ids[]", instructor.id
+        = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
+        %br
+      = select_tag :status, options_for_select(["Inactive", "Current", "Courtesy"], "Inactive"), class: "form-control"
+      = submit_tag "Update", class: "btn btn-primary"
+
+        
+%h3 &nbsp;&nbsp;Unsorted
+.row
+  .col-md-4
+    %ul
+    = form_tag instructor_index_path, method: :post do
+      - inst_list("status IS NULL").each  do |instructor|
+        = check_box_tag "instructor_ids[]", instructor.id
+        = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
+        %br
+      = select_tag :status, options_for_select(["Inactive", "Current", "Courtesy"], "NULL"), class: "form-control"
+      = submit_tag "Update", class: "btn btn-primary"

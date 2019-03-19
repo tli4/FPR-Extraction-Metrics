@@ -1,0 +1,145 @@
+%div{align: "right"}
+  = form_tag evaluation_index_path(sort_by: :sort_by), method: :get, class: "form-inline" do
+    .form-group
+      &nbsp;
+      %label{for: "year"} Year:
+      %select{name: "year", id: "year", class: "form-control"}
+        %option{value: nil, selected: ( params[:year].nil? ? "selected" : nil)}="All"
+        - @years.each do |yr|
+          %option{value: yr, selected: (yr == params[:year] ? "selected" : nil)}= yr
+
+      &nbsp;
+      %label{for: "semester"} Semester:
+      %select{name: "semester", id: "semester", class: "form-control"}
+        %option{value: nil, selected: ( params[:semester].nil? ? "selected" : nil)}="All"
+        - @semesters.each do |smstr|
+          %option{value: smstr, selected: (smstr == params[:semester] ? "selected" : nil)}= smstr
+
+      &nbsp;
+      %label{for: "instructor_name"} Instructor:
+      %select{name: "instructor_name", id: "instructor_name", class: "form-control"}
+        %option{value: nil, selected: ( params[:instructor_name].nil? ? "selected" : nil)}="All"
+        - @instructor_names.each do |current_instructor_name|
+          %option{value: current_instructor_name, selected: (current_instructor_name == params[:instructor_name] ? "selected" : nil)}= current_instructor_name
+
+      &nbsp;
+      %label{for: "course_name"} Course:
+      %select{name: "course_name", id: "course_name", class: "form-control"}
+        %option{value: nil, selected: ( params[:course_name].nil? ? "selected" : nil)}="All"
+        - @course_names.each do |course_name|
+          %option{value: course_name, selected: (course_name == params[:course_name] ? "selected" : nil)}= course_name
+
+      &nbsp;
+      %label{for: "course_level_filter"} Course Level:
+      %select{name: "course_level_filter", id: "course_level_filter", class: "form-control"}
+        %option{value: nil, selected: ( params[:course_level_filter].nil? ? "selected" : nil)}="All"
+        - @course_level_filters.each do |course_level_filter|
+          %option{value: course_level_filter, selected: (course_level_filter == params[:course_level_filter] ? "selected" : nil)}= course_level_filter
+
+      &nbsp;
+      %label{for: "honors"} View Honors:
+      %select{name: "honors", id: "honors", class: "form-control"}
+        %option{value: "yes", selected: (params[:honors].nil? ? "selected" : "yes" == params[:honors] ? "selected" : nil)}= "Yes"
+        %option{value: "no", selected: ("no" == params[:honors] ? "selected" : nil)}= "No"
+        %option{value: "only", selected: ("only" == params[:honors] ? "selected" : nil)}= "Only"
+
+      &nbsp;
+    %button{type: "submit", class: "btn btn-primary"} Go
+
+%p
+
+%p.text-right
+
+  = link_to "Group by Level", evaluation_index_path(:sort_by=>"course_level", :year=>params[:year].nil? ? "All" : params[:year], :semester=>params[:semester].nil? ? "All" : params[:semester], :instructor_name=>params[:instructor_name].nil? ? "All" : params[:instructor_name], :course_name=>params[:course_name].nil? ? "All" : params[:course_name], :honors=>params[:honors].nil? ? "yes" : params[:honors]), class: "btn btn-primary"
+  &nbsp;&nbsp;
+  = link_to "Reset All Options", evaluation_index_path, class: "btn btn-warning"
+
+%p.text-right
+  = link_to "Import PICA Data", import_evaluation_index_path, class: "btn btn-primary"
+  = link_to "Import GPR Data", import_gpr_evaluation_index_path, class: "btn btn-primary"
+  &nbsp;&nbsp;
+  = link_to "Missing Data", missing_data_evaluation_index_path, class: "btn btn-warning"
+  &nbsp;&nbsp;
+  = link_to "Export to Excel",  export_evaluation_path(:id=>params[:sort_by].nil? ? "default" : params[:sort_by], :sort_by=>params[:sort_by].nil? ? "default" : params[:sort_by], :year=>params[:year].nil? ? "All" : params[:year], :semester=>params[:semester].nil? ? "All" : params[:semester], :instructor_name=>params[:instructor_name].nil? ? "All" : params[:instructor_name], :course_level_filter=>params[:course_level_filter].nil? ? "All" : params[:course_level_filter], :course_name=>params[:course_name].nil? ? "All" : params[:course_name], :honors=>params[:honors].nil? ? "yes" : params[:honors]), class: "btn btn-primary"
+
+%h1 Evaluation Table:
+
+%table.table.table-condensed
+  %thead
+    %tr
+      %th
+      - if can? :write, :all
+        %th.light-gray-highlight Edit
+      %th.light-gray-highlight
+        = link_to "Term", evaluation_index_path(sort_by: :semester_, :year=>params[:year].nil? ? "All" : params[:year], :semester=>params[:semester].nil? ? "All" : params[:semester], :instructor_name=>params[:instructor_name].nil? ? "All" : params[:instructor_name], :course_name=>params[:course_name].nil? ? "All" : params[:course_name], :honors=>params[:honors].nil? ? "yes" : params[:honors])
+      %th.light-gray-highlight Subject
+      %th.light-gray-highlight Course Name
+      %th.light-gray-highlight
+        = link_to "Course", evaluation_index_path(sort_by: :course_, :year=>params[:year].nil? ? "All" : params[:year], :semester=>params[:semester].nil? ? "All" : params[:semester], :instructor_name=>params[:instructor_name].nil? ? "All" : params[:instructor_name], :course_name=>params[:course_name].nil? ? "All" : params[:course_name], :honors=>params[:honors].nil? ? "yes" : params[:honors])
+      %th.light-gray-highlight Section
+      %th.light-gray-highlight
+        = link_to "Instructor", evaluation_index_path(sort_by: :instructor_, :year=>params[:year].nil? ? "All" : params[:year], :semester=>params[:semester].nil? ? "All" : params[:semester], :instructor_name=>params[:instructor_name].nil? ? "All" : params[:instructor_name], :course_name=>params[:course_name].nil? ? "All" : params[:course_name], :honors=>params[:honors].nil? ? "yes" : params[:honors])
+
+      %th.light-gray-highlight Responses 
+      %th.light-gray-highlight Enrollment
+      - (1..8).each do |num|
+        %th.light-gray-highlight
+          = "Item #{num}"
+      %th.light-gray-highlight GPR
+      %th.light-gray-highlight Mean Student Eval Score
+      %th.light-gray-highlight Course Level Average
+      %th
+
+  %tbody
+    - @evaluation_groups.each do |group|
+      - group.each do |evaluation|
+        %tr
+          %td{colspan: 1}
+          - if can? :write, :all
+            %td
+              = link_to "Edit", edit_evaluation_path(evaluation)
+          %td
+            = link_to evaluation.term, evaluation_index_path(:semester=>evaluation.term.to_s.last, :year=>evaluation.term.to_s[0..3], :instructor_name=>params[:instructor_name].nil? ? "All" : params[:instructor_name], :course_name=>params[:course_name].nil? ? "All" : params[:course_name], :sort_by=>params[:sort_by].nil? ? "default" : params[:sort_by], :honors=>params[:honors].nil? ? "yes" : params[:honors])
+          %td
+            = evaluation.subject
+          %td
+            = link_to evaluation.course_name.nil? ? "" : evaluation.course_name, evaluation_index_path(:course_name=>evaluation.subject + " " +  evaluation.course.to_s, :instructor_name=>params[:instructor_name].nil? ? "All" : params[:instructor_name], :year=>params[:year].nil? ? "All" : params[:year], :semester=>params[:semester].nil? ? "All" : params[:semester], :sort_by=>params[:sort_by].nil? ? "default" : params[:sort_by], :honors=>params[:honors].nil? ? "yes" : params[:honors])
+          %td
+            = link_to evaluation.course.to_s + is_honors(evaluation.section), evaluation_index_path(:course_name=>evaluation.subject + " " +  evaluation.course.to_s, :instructor_name=>params[:instructor_name].nil? ? "All" : params[:instructor_name], :year=>params[:year].nil? ? "All" : params[:year], :semester=>params[:semester].nil? ? "All" : params[:semester], :sort_by=>params[:sort_by].nil? ? "default" : params[:sort_by], :honors=>params[:honors].nil? ? "yes" : params[:honors])
+          %td
+            = evaluation.section
+          %td
+            - if evaluation.instructor.present?
+              = link_to evaluation.instructor.name, instructor_path(id: evaluation.instructor.id)
+          %td
+            = evaluation.responses
+          
+          %td{ class: (evaluation.enrollment.nil? ? "highlighted" : "" ) }
+            = evaluation.enrollment
+          - (1..8).each do |num|
+            %td{ class: (evaluation.method("item#{num}_mean".to_sym).call.nil? ? "highlighted" : "" ), class: (evaluation.method("item#{num}_mean".to_sym).call>5 ? "highlight-invalid-data" : "" ) }
+              = evaluation.method("item#{num}_mean".to_sym).call
+          %td{ class: (evaluation.gpr.nil? ? "highlighted" : "" ) }
+            = evaluation.gpr
+          %td{colspan: 2}
+      %tr
+        %b
+          %td{colspan: 1}
+          %td.gray-highlight
+            %b Total
+
+          %td.gray-highlight{colspan: 6}
+          %td.gray-highlight
+            %b= compute_total_responses(group)
+          %td.gray-highlight
+            %b= compute_total_enrollment(group)
+          - (1..8).each do |x|
+            %td.gray-highlight
+              %b= compute_weighted_average_for_item(x, group).round(2)
+          %td.gray-highlight{colspan: 1}
+          %td.gray-highlight
+            %b= compute_mean_student_eval_score(group).try(:round, 2)
+          %td.gray-highlight
+            %b= compute_course_level_average(group, @evaluation_groups).try(:round, 2)
+          %td.gray-highlight
+          %td{colspan: 1}
