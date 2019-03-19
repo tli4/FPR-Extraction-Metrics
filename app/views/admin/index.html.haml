@@ -1,0 +1,32 @@
+%table.table.table
+  %thead
+    %tr
+      %th Email
+      %th User Class
+
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td
+          = user.email
+        %td
+          .btn-group
+            %a.btn.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              = Role.new.readable_roles[user.roles.first.name.to_sym]
+              %span.caret
+            %ul.dropdown-menu
+              %li
+                = link_to "Administrator", admin_change_to_admin_path(user), :id => user.email+"admin"
+              %li
+                = link_to "Read/Write", admin_change_to_read_write_path(user), :id => user.email+"readWrite"
+              %li
+                = link_to "Read Only", admin_change_to_read_only_path(user), :id => user.email+"readOnly"
+              %li
+                = link_to "Guest", admin_change_to_guest_path(user), :id => user.email+"guest"
+
+              %li.divider
+              %li
+                = link_to "Remove", admin_remove_user_path(user), :id => user.email+"remove"
+
+%h4
+  = link_to "Create New User", new_admin_path(:user)

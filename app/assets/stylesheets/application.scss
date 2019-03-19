@@ -1,0 +1,74 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ */
+
+
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "AdminLTE";
+@import "skins/skin-blue";
+@import "skins/skin-red";
+@import "skins/skin-red-light";
+
+.highlighted {
+  background: rgb(255, 255, 0);
+}
+
+.green-highlight {
+  background: rgb(108, 204, 75);
+}
+
+.gray-highlight {
+  background: rgb(157, 146, 114);
+}
+
+.my_light_background{
+  background: rgb(250, 250, 255);
+}
+
+ul.nav > li > a:hover {
+	background-color: rgb(210, 210, 255);
+	color: #000000;
+	border-style: none;
+}
+
+.mybackground{
+  background: rgb(240, 240, 255);
+}
+
+.light-gray-highlight {
+  background: rgb(158, 151, 142);
+}
+
+.highlight-invalid-data {
+  background: rgb(255, 100, 30);
+}
+
+.outer {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.inner {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%
+}

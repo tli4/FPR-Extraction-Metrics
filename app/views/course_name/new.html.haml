@@ -1,0 +1,17 @@
+%h1 Course Name data:
+
+= form_for :course_name, url: course_name_index_path, method: :post, html: { class: "form-horizontal" } do |f|
+
+  .form-group
+    %label{for: "course_name_subject_course", class: "col-sm-2 control-label"} Course
+    .col-sm-10
+      = f.text_field :subject_course, class: "form-control", placeholder: "e.g. CSCE 121", required: true
+
+  .form-group
+    %label{for: "course_name_name", class: "col-sm-2 control-label"} Name
+    .col-sm-10
+      = f.text_field :name, class: "form-control", placeholder: "e.g. Introduction to Program Design and Concepts", required: true
+
+  .form-group
+    .col-sm-10.col-sm-offset-2
+      = f.submit "Add Course Name", class: "btn btn-primary"
