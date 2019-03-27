@@ -8,7 +8,7 @@ If working in macos:
 * `rake db:migrate`
 * `rake db:seed`
 
-   * `rails server -p $PORT -b $IP `
+   * `rails server`
 
 
 If deploying in Heroku: 
