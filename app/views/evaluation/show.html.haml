@@ -60,7 +60,7 @@
   &nbsp;&nbsp;
   = link_to "Missing Data", missing_data_evaluation_index_path, class: "btn btn-warning"
   &nbsp;&nbsp;
-  = link_to "Export to Excel",  export_evaluation_path(:id=>params[:sort_by].nil? ? "default" : params[:sort_by], :sort_by=>params[:sort_by].nil? ? "default" : params[:sort_by], :year=>params[:year].nil? ? "All" : params[:year], :semester=>params[:semester].nil? ? "All" : params[:semester], :instructor_name=>params[:instructor_name].nil? ? "All" : params[:instructor_name], :course_level_filter=>params[:course_level_filter].nil? ? "All" : params[:course_level_filter], :course_name=>params[:course_name].nil? ? "All" : params[:course_name], :honors=>params[:honors].nil? ? "yes" : params[:honors]), class: "btn btn-primary"
+  = link_to "Export to Excel",  export_evaluation_path(:id=>params[:sort_by].nil? ? "default" : params[:sort_by], :sort_by=>params[:sort_by].nil? ? "default" : params[:sort_by], :year=>params[:year].nil? ? "All" : params[:year], :semester=>params[:semester].nil? ? "All" : params[:semester], :instructor_name=>params[:instructor_name].nil? ? "All" : params[:instructor_name], :course_level_filter=>params[:course_level_filter].nil? ? "All" : params[:course_level_filter], :course_name=>params[:course_name].nil? ? "All" : params[:course_name], :honors=>params[:honors].nil? ? "yes" : params[:honors], format: :csv), class: "btn btn-primary"
 
 %h1 Evaluation Table:
 
