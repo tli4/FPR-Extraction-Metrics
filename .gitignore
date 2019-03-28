@@ -49,3 +49,7 @@ node_modules/
 
 # macOs
 .DS_Store
+
+# Intellij
+.idea/
+
