@@ -89,13 +89,13 @@ RSpec.describe InstructorController, type: :controller do
     it "correctly totals the students for all sections" do
       get :export, id: 1
       csv = CSV.parse(response.body)
-      expect(csv[3][2]).to eq("40")
+      expect(csv[3][3]).to eq("40")
     end
 
     it "correctly totals the students for all sections" do
       get :export, id: 1
       csv = CSV.parse(response.body)
-      expect(csv[3][3]).to eq("50")
+      expect(csv[3][2]).to eq("50")
     end
     
     it "has a separate entry for the same course in different terms" do
