@@ -12,9 +12,9 @@ If working in macos:
 
 
 If deploying in Heroku: 
-* `heroku create`
+* `heroku create fpr-ext-met-kernelpanic --stack heroku-16`
 * `git push heroku master`
 * `heroku run rake db:migrate`
 * `heroku run rake db:seed`
 
-   * `https://peaceful-lake-36541.herokuapp.com/` or `whatever`
+Heroku Link: https://fpr-ext-met-kernelpanic.herokuapp.com/
