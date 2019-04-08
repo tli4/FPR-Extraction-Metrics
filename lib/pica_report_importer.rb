@@ -78,9 +78,14 @@ class PicaReportImporter
           row_index = column_header_indices[data_type]
           raise MalformedFileException.new if row_index.nil?
           cell = row.cells[row_index]
-
           data_type = RENAMES[data_type] if RENAMES[data_type]
-          evaluation[data_type] = cell && cell.value
+          
+          if cell.value.nil?
+            evaluation[data_type] = 0
+          else
+            evaluation[data_type] = cell && cell.value
+          end
+
         end
 
         evaluations.push(evaluation) if evaluation.values.reject(&:nil?).size > 0
@@ -103,6 +108,9 @@ class PicaReportImporter
           cell = @workbook.cell(row_num + 2, row_index + 1)
 
           data_type = RENAMES[data_type] if RENAMES[data_type]
+          if cell.nil?
+            cell = "0"
+          end
           if data_type == :course || data_type == :section || data_type == :enrollment
             evaluation[data_type] = cell.to_int
           else
