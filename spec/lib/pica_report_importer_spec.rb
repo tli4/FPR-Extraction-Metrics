@@ -12,6 +12,11 @@ RSpec.describe PicaReportImporter do
       end
     end
 
+    it "Empty cell should have value 0" do
+      hashes = PicaReportImporter.new(mock_file, 'StatisticsReport.xlsx').send(:evaluation_hashes)
+      expect(hashes[0][:item1_mean]).to be(0)
+    end
+
     it "should have read in 9 entries" do
       hashes = PicaReportImporter.new(mock_file, 'StatisticsReport.xlsx').send(:evaluation_hashes)
       expect(hashes.size).to be(9)
