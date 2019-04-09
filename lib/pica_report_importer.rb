@@ -108,9 +108,6 @@ class PicaReportImporter
           cell = @workbook.cell(row_num + 2, row_index + 1)
 
           data_type = RENAMES[data_type] if RENAMES[data_type]
-          if cell.nil?
-            cell = "0"
-          end
           if data_type == :course || data_type == :section || data_type == :enrollment
             evaluation[data_type] = cell.to_int
           else
