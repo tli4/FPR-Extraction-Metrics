@@ -18,3 +18,7 @@ If deploying in Heroku:
 * `heroku run rake db:seed`
 
 Heroku Link: https://fpr-ext-met-kernelpanic.herokuapp.com/
+
+Heroku Demo App Admin login:
+* User name: kernelpanic@csce606.com
+* password: 12345678
