@@ -2,17 +2,19 @@ require 'pdf-reader-turtletext'
 
 class GradeDistributionReportImporter
 
-  MATCHES = {
-    section: /\A[A-Z]{4}-\d{3}-\d{3}\z/,
-    gpr: /\A\d\.\d{3}\z/,
-    instructor: /\A([a-zA-Z]+ )+[A-Za-z]\z/
-  }
-
   TOLERANCE = 2
 
-  def initialize(filename, term)
+  def initialize(filename, term, major)
     @reader = PDF::Reader::Turtletext.new(filename)
     @term = term
+    @major = major
+    # To later teams: We can only import course section number with digits
+    # For example: we can't import section number such as "ENGR-112-M01"
+    @matches = {
+      section: /\A#{major}-\d{3}-\d{3}\z/,
+      gpr: /\A\d\.\d{3}\z/,
+      instructor: /\A([a-zA-Z]+ )+[A-Za-z]\z/
+    }
   end
 
   def import
@@ -75,31 +77,31 @@ class GradeDistributionReportImporter
 
   def data_piece_satisfactions(column)
     satisfactions = 0
-    satisfactions += 1 if column.any? { |data| data.last.match MATCHES[:section] }
-    satisfactions += 1 if column.any? { |data| data.last.match MATCHES[:gpr] }
-    satisfactions += 1 if column.any? { |data| data.last.match MATCHES[:instructor] }
+    satisfactions += 1 if column.any? { |data| data.last.match @matches[:section] }
+    satisfactions += 1 if column.any? { |data| data.last.match @matches[:gpr] }
+    satisfactions += 1 if column.any? { |data| data.last.match @matches[:instructor] }
     satisfactions
   end
 
   def extract_grade(x, column)
-    section = column.find { |data| data.last.match MATCHES[:section] }.last
-    gpr = column.find { |data| data.last.match MATCHES[:gpr] }.last
-    instructor = column.find { |data| data.last.match MATCHES[:instructor] }.last
+    section = column.find { |data| data.last.match @matches[:section] }.last
+    gpr = column.find { |data| data.last.match @matches[:gpr] }.last
+    instructor = column.find { |data| data.last.match @matches[:instructor] }.last
     { section: section, gpr: gpr, instructor: instructor, x: x }
   end
 
   def match_data(data, x, grades)
     case data
-    when MATCHES[:section]
+    when @matches[:section]
       grades.push({ section: data, x: x })
-    when MATCHES[:gpr]
+    when @matches[:gpr]
       grades.map do |gpr|
         if (gpr[:x] - x).abs < TOLERANCE
           gpr[:gpr] = data
         end
         gpr
       end
-    when MATCHES[:instructor]
+    when @matches[:instructor]
       grades.each do |gpr|
         if (gpr[:x] - x).abs < TOLERANCE
           gpr[:instructor] = data

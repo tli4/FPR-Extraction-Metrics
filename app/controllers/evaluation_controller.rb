@@ -330,13 +330,19 @@ class EvaluationController < ApplicationController
       return
     end
 
+    unless params[:major] && params[:major].match(/\A[A-Z]{4}\z/)
+      flash[:errors] = "Major is either missing or in the incorrect format."
+      redirect_to import_gpr_evaluation_index_path
+      return
+    end
+
     if params[:data_file].nil?
       flash[:errors] = "File not attached, please select file to upload"
       redirect_to import_gpr_evaluation_index_path
       return
     end
 
-    importer = ::GradeDistributionReportImporter.new(params.require(:data_file).tempfile, params[:term])
+    importer = ::GradeDistributionReportImporter.new(params.require(:data_file).tempfile, params[:term], params[:major])
     importer.import
     results = importer.results
 

@@ -5,6 +5,9 @@
     %label{ for: "term"} Term
     = text_field_tag "term", nil, placeholder: "e.g. 2015C", class: "form-control"
   .form-group
+    %label{ for: "major"} Major
+    = text_field_tag "major", nil, placeholder: "e.g. CSCE", class: "form-control"
+  .form-group
     %label{ for: "data_file"} Data File
     = file_field_tag 'data_file'
     %p.help-block

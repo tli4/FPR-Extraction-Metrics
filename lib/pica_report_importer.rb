@@ -35,7 +35,7 @@ class PicaReportImporter
 
       # currently all files are saved on the server
     else
-      raise "There was an error parsing your Excel f    ile. Maybe it is corrupt?"
+      raise "There was an error parsing your Excel file. Maybe it is corrupt?"
     end
   end
 
