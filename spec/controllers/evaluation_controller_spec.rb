@@ -331,7 +331,7 @@ RSpec.describe EvaluationController, type: :controller do
   describe "POST #upload_gpr" do
     it "fails gracefully for non .pdf fils" do
       @file = fixture_file_upload('/random.dat', 'application/octet-stream')
-      post :upload_gpr, data_file: @file, term: '2015C'
+      post :upload_gpr, data_file: @file, term: '2015C', major: 'CSCE'
       expect(response).to redirect_to(import_gpr_evaluation_index_path)
       expect(flash[:errors]).to_not be(nil)
     end
@@ -352,7 +352,7 @@ RSpec.describe EvaluationController, type: :controller do
 
     it "accepts .pdf files for uploading" do
       @file = fixture_file_upload('/grade_distribution.pdf', 'application/pdf')
-      post :upload_gpr, data_file: @file, term: '2015C'
+      post :upload_gpr, data_file: @file, term: '2015C', major: 'CSCE'
       expect(response).to redirect_to("/evaluation/show")
     end
 

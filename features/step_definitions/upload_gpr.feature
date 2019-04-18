@@ -11,6 +11,7 @@ Feature: Integrate data uploaded from PDFs containing GPR data
     And User has uploaded PICA data
     And User is on the import GPR page
     When User fills in Term with 2015C
+    When User fills in Major with CSCE
     And User selects GPR file
     And User clicks on the Upload button
     Then User should see the evaluations page for show
@@ -21,14 +22,25 @@ Feature: Integrate data uploaded from PDFs containing GPR data
     And User has uploaded PICA data
     And User is on the import GPR page
     When User fills in Term with 2015C
+    When User fills in Major with CSCE
     And User clicks on the Upload button
     Then User should see message stating File not attached, please select file to upload
+
+  Scenario: User does not fill in Major
+    Given User is authenticated
+    And User has uploaded PICA data
+    And User is on the import GPR page
+    When User fills in Term with 2015C
+    And User selects GPR file
+    And User clicks on the Upload button
+    Then User should see message stating Major is either missing or in the incorrect format.
 
   Scenario: User selects the wrong filetype to upload
     Given User is authenticated
     And User has uploaded PICA data
     And User is on the import GPR page
     When User fills in Term with 2015C
+    When User fills in Major with CSCE
     When User selects excel file
     And User clicks on the Upload button
     Then User should see message stating There was an error parsing that PDF file. Maybe it is corrupt?
@@ -38,6 +50,7 @@ Feature: Integrate data uploaded from PDFs containing GPR data
     And User has uploaded PICA data
     And User is on the import GPR page
     When User fills in Term with 2015C
+    When User fills in Major with CSCE
     And User selects GPR file
     And User clicks on the Upload button
     And User clicks on Faculty Member Data link
@@ -49,6 +62,7 @@ Feature: Integrate data uploaded from PDFs containing GPR data
     And User has uploaded matching PICA data
     And User is on the import GPR page
     When User fills in Term with 2015C
+    When User fills in Major with CSCE
     And User selects GPR file
     And User clicks on the Upload button
     And User clicks on Faculty Member Data link
@@ -60,6 +74,7 @@ Feature: Integrate data uploaded from PDFs containing GPR data
     And User has uploaded matching PICA data
     And User is on the import GPR page
     When User fills in Term with 2015C
+    When User fills in Major with CSCE
     And User selects GPR file
     And User clicks on the Upload button
     And User clicks on Faculty Member Data link
