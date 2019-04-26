@@ -2,7 +2,7 @@
 .row
   .col-md-4
     %ul
-    = form_tag instructor_index_path, method: :post do
+    = form_tag merge_instructor_index_path, method: :post do
       %h3 &nbsp;&nbsp;Current
       - inst_list("status = 'Current'").each  do |instructor|
         = check_box_tag "instructor_ids[]", instructor.id

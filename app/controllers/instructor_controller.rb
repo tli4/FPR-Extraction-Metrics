@@ -31,6 +31,14 @@ class InstructorController < ApplicationController
     redirect_to instructor_path(id)
     # redirect_to instructor_index_path
   end
+
+  def combine
+    #@instructor = Instructor.find(id)
+  end
+
+  def merge
+    @instructor = Instructor.find(id)
+  end
   
   def create
     if not params[:instructor_ids].nil?
