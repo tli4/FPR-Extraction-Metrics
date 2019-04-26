@@ -42,6 +42,7 @@ Rails.application.routes.draw do
 
   resources :instructor do
     get 'export',        on: :member
+    get  'combine', on: :collection
   end
 
   resources :course_name do

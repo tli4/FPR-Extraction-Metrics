@@ -1,4 +1,8 @@
 %h1 &nbsp;Instructors List
+
+%p.text-left
+  = link_to "Combine Instructors", combine_instructor_index_path(), class: "btn btn-primary"
+
 %h3 &nbsp;&nbsp;Current
 .row
   .col-md-4
@@ -49,3 +53,4 @@
         %br
       = select_tag :status, options_for_select(["Inactive", "Current", "Courtesy"], "NULL"), class: "form-control"
       = submit_tag "Update", class: "btn btn-primary"
+
