@@ -3,6 +3,7 @@ class InstructorController < ApplicationController
 
   before_action :authenticate_user!
   before_action :verify_read
+  before_filter :check_for_cancel
 
   def index
     # return the instructors in sorted order by last name
@@ -34,10 +35,41 @@ class InstructorController < ApplicationController
 
   def combine
     #@instructor = Instructor.find(id)
+    # flash[:notice] = "combine function called."
+    # redirect_to combine_instructor_index_path
   end
 
   def merge
-    @instructor = Instructor.find(id)
+    session[:instructor_combine_id] = id
+    redirect_to merge_confirm_instructor_index_path
+  end
+
+  def merge_confirm
+    @instructor_combine = Instructor.find(session[:instructor_combine_id])
+
+    if params[:commit].eql? "Combine"
+      @instructor_combine_ids = session[:instructor_combine_id]
+      @instructor_keep_id = [params[:name]]
+      @instructor_delete_ids = @instructor_combine_ids - @instructor_keep_id
+
+      @instructor_delete_ids.each do |id|
+        Evaluation.where(instructor_id: id).update_all(instructor_id:  @instructor_keep_id[0])
+      end
+
+      @instructor_delete_ids.each do |id|
+        Instructor.find(id).destroy
+      end
+      flash[:notice] = "Combine operation is successful. "
+      redirect_to instructor_index_path
+    end
+
+  end
+
+  def check_for_cancel
+    if(params.key?("cancel"))
+      flash[:notice] = "Combine operation is cancelled. "
+      redirect_to instructor_index_path
+    end
   end
   
   def create

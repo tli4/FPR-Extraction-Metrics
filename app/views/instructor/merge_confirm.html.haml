@@ -1,0 +1,15 @@
+%h1 &nbsp;Confirm Combine Instructors
+.row
+  .col-md-4
+    %ul
+    = form_tag merge_confirm_instructor_index_path, method: :post do
+      %h5 &nbsp;&nbsp;Instructors to be combined
+      - @instructor_combine.each  do |instructor|
+        &nbsp;&nbsp;
+        = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
+        %br
+      %h5 &nbsp;&nbsp;Choose one name to keep:
+      = select_tag "name", options_from_collection_for_select(@instructor_combine, "id", "name"), class: "form-control"
+      %br
+      = submit_tag "Combine", class: "btn btn-primary"
+      = button_tag "Cancel", :type => 'cancel', :name => 'cancel', class: "btn btn-secondary"

@@ -5,22 +5,22 @@
     = form_tag merge_instructor_index_path, method: :post do
       %h3 &nbsp;&nbsp;Current
       - inst_list("status = 'Current'").each  do |instructor|
-        = check_box_tag "instructor_ids[]", instructor.id
+        = check_box_tag "id[]", instructor.id
         = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
         %br
       %h3 &nbsp;&nbsp;Courtesy
       - inst_list("status = 'Courtesy'").each  do |instructor|
-        = check_box_tag "instructor_ids[]", instructor.id
+        = check_box_tag "id[]", instructor.id
         = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
         %br
       %h3 &nbsp;&nbsp;Inactive
       - inst_list("status = 'Inactive'").each  do |instructor|
-        = check_box_tag "instructor_ids[]", instructor.id
+        = check_box_tag "id[]", instructor.id
         = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
         %br
       %h3 &nbsp;&nbsp;Unsorted
       - inst_list("status IS NULL").each  do |instructor|
-        = check_box_tag "instructor_ids[]", instructor.id
+        = check_box_tag "id[]", instructor.id
         = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
         %br
-    = submit_tag "Combine", class: "btn btn-primary"
+      = submit_tag "Combine", class: "btn btn-primary"

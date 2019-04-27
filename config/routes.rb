@@ -45,6 +45,8 @@ Rails.application.routes.draw do
     get 'combine',       on: :collection
     post 'merge',        on: :collection
     get 'merge',        on: :collection
+    post 'merge_confirm',        on: :collection
+    get 'merge_confirm',        on: :collection
   end
 
   resources :course_name do
