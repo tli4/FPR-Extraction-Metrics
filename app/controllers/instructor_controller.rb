@@ -40,8 +40,13 @@ class InstructorController < ApplicationController
   end
 
   def merge
-    session[:instructor_combine_id] = id
-    redirect_to merge_confirm_instructor_index_path
+    if not params[:id].nil?
+      session[:instructor_combine_id] = id
+      redirect_to merge_confirm_instructor_index_path
+    else
+      flash[:notice] = "No instructor is selected. Combine operation is cancelled."
+      redirect_to instructor_index_path
+    end
   end
 
   def merge_confirm
