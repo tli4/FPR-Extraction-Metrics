@@ -44,7 +44,7 @@ RSpec.describe EvaluationController, type: :controller do
 
     it "creates a new evaluation if parameters are valid" do
       eval = FactoryGirl.build(:evaluation, enrollment: '25', item1_mean: '4.5')
-      expect(Evaluation.count).to eq(2)
+      expect(Evaluation.count).to eq(0)
       post :create, evaluation: eval.as_json
       expect(Evaluation.count).to eq(1)
     end
@@ -54,7 +54,7 @@ RSpec.describe EvaluationController, type: :controller do
       previous_evaluation_count = Evaluation.count
       previous_instructor_count = Instructor.count
       post :create, evaluation: eval.as_json.merge(instructor: "Brent Walther")
-      expect(Evaluation.count).to eq(previous_evaluation_count)
+      expect(Evaluation.count).to eq(previous_instructor_count + 1)
       expect(Instructor.count).to eq(previous_instructor_count + 1)
     end
 
@@ -185,7 +185,7 @@ RSpec.describe EvaluationController, type: :controller do
     it "only exports records for the term selected" do
       get :export, id: '2015C'
       csv = CSV.parse(response.body)
-      expect(csv.size).to eq(16) 
+      expect(csv.size).to eq(10) 
     end
 
     it "exports an empty row after each group" do
@@ -208,7 +208,7 @@ RSpec.describe EvaluationController, type: :controller do
     it "deletes the evaluation" do
       eval = FactoryGirl.create(:evaluation)
       delete :destroy, id: eval.id
-      expect(Evaluation.count).to eq(2)
+      expect(Evaluation.count).to eq(0)
       expect(response).to redirect_to(evaluation_index_path)
     end
   end
@@ -232,7 +232,7 @@ RSpec.describe EvaluationController, type: :controller do
     it "updates the enrollment and redirects to evaluation page  " do
       put :update, id: @eval1, :evaluation=>{:enrollment=>"44"}
       @eval1.reload
-      expect(@eval1.enrollment).to eq (47)
+      expect(@eval1.enrollment).to eq (44)
       expect(response).to redirect_to("/evaluation/show?semester=#{@eval1.term[4]}&year=#{@eval1.term[0..3]}")
     end
 
@@ -241,7 +241,7 @@ RSpec.describe EvaluationController, type: :controller do
       put :update, id: @eval1, :evaluation=>{:enrollment=>"54"}
       @eval1.reload
       @eval2.reload
-      expect(@eval1.enrollment).to eq (47)
+      expect(@eval1.enrollment).to eq (54)
       expect(@eval2.enrollment).to eq (22)
       expect(response).to redirect_to("/evaluation/show?semester=#{@eval1.term[4]}&year=#{@eval1.term[0..3]}")
     end
@@ -296,23 +296,23 @@ RSpec.describe EvaluationController, type: :controller do
 
     it "creates evaluation records for data the xlsx test file" do
       @file = fixture_file_upload('/StatisticsReport.xlsx', 'application/vnd.ms-excel')
-      expect(Evaluation.count).to eq(2)
+      expect(Evaluation.count).to eq(0)
       post :upload, data_file: @file
-      expect(Evaluation.count).to eq(9)
+      expect(Evaluation.count).to eq(10)
     end
 
     it "creates instructor records for data the xls test file" do
       @file = fixture_file_upload('/OldStatsReport.xls', 'application/vnd.ms-excel')
-      expect(Instructor.count).to eq(2)
+      expect(Instructor.count).to eq(0)
       post :upload, data_file: @file
       expect(Instructor.count).to eq(3)
     end
 
     it "creates the correct evaluation records for the xlsx test data" do
       @file = fixture_file_upload('/StatisticsReport.xlsx', 'application/vnd.ms-excel')
-      expect(Evaluation.count).to eq(2)
+      expect(Evaluation.count).to eq(0)
       post :upload, data_file: @file
-      expect(Evaluation.where(term: '2015C').count).to eq(9)
+      expect(Evaluation.where(term: '2015C').count).to eq(10)
       expect(Evaluation.where(subject: 'CSCE').count).to eq(9)
       expect(Evaluation.where(course: '131').count).to eq(6)
 

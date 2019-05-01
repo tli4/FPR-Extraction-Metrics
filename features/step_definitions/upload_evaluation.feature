@@ -12,7 +12,7 @@ Feature: Integrate data uploaded from excel files downloaded from PICA website
     When User selects evaluation excel file
     And User clicks on the Upload button
     Then User should see the evaluations page for show
-    And User should see 9 new evaluations imported. 0 evaluations updated.
+    And User should see 10 new evaluations imported. 0 evaluations updated.
 
   Scenario: User uploads a non-excel file
     Given User is authenticated

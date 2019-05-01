@@ -63,7 +63,7 @@ RSpec.describe EvaluationHelper, type: :helper do
 
     it "computes the course level average from each of the grouped course averages" do
       one_hundred_level_courses.each { |attrs| FactoryGirl.create(:evaluation, attrs) }
-      expect(Evaluation.count).to eq(41)
+      expect(Evaluation.count).to eq(39)
 
       evaluation_groups = Evaluation.default_sorted_groups
       expect(helper.compute_course_level_average(evaluation_groups.first, evaluation_groups)).to be_within(0.005).of(3.83)

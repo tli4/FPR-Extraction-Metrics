@@ -19,7 +19,7 @@ Feature: Manually enter evaluation data from paper evaluations
     And User selects Brent Walther from the Instructor select menu
     And User clicks on the Add Evaluation button
     Then User should be in evaluation page
-    And User should see a table of 11 data rows
+    And User should see a table of 7 data rows
 
   Scenario: Administrator is able to access the manual evaluation entry screen
     Given There exists 4 users assigned admin, readWrite, readOnly, and guest as roles

@@ -31,12 +31,12 @@ RSpec.describe Evaluation, type: :model do
     it "creates a new record if one does not already exist" do
       expect(Evaluation.all.count).to eq(0)
       Evaluation.create_if_needed_and_update(key_attrs, other_attrs)
-      expect(Evaluation.all.count).to eq(2)
+      expect(Evaluation.all.count).to eq(1)
     end
 
     it "doesn't create a new record if one already exists" do
       Evaluation.create(key_attrs.merge(other_attrs))
-      expect(Evaluation.all.count).to eq(3)
+      expect(Evaluation.all.count).to eq(1)
 
       Evaluation.create_if_needed_and_update(key_attrs, other_attrs)
       expect(Evaluation.all.count).to eq(1)
@@ -46,7 +46,7 @@ RSpec.describe Evaluation, type: :model do
       string_name = "Kevin Sumlin"
       other_attrs[:instructor] = string_name
       expect { Evaluation.create_if_needed_and_update(key_attrs, other_attrs) }.to_not raise_exception
-      expect(Evaluation.all.count).to eq(3)
+      expect(Evaluation.all.count).to eq(1)
       expect(Instructor.where(name: string_name).count).to eq(1)
     end
 

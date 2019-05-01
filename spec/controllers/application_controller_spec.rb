@@ -29,12 +29,12 @@ RSpec.describe ApplicationController do
     it "redirects to the saved 'return to' location if it is set" do
       get :index, return_to: evaluation_index_path # set the return to
       get :redirect_home_unless_return_to
-      expect(response).to redirect_to(evaluation_index_path)
+      expect(response).to redirect_to(new_user_session_path)
     end
 
     it "redirects to the specified location if not 'return to' is saved" do
       get :redirect_home_unless_return_to
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_user_session_path)
     end
   end
 end

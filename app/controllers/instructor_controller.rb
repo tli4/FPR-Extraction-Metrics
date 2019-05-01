@@ -3,7 +3,6 @@ class InstructorController < ApplicationController
 
   before_action :authenticate_user!
   before_action :verify_read
-  before_filter :check_for_cancel
 
   def index
     # return the instructors in sorted order by last name
@@ -50,6 +49,12 @@ class InstructorController < ApplicationController
   end
 
   def merge_confirm
+
+    if(params[:commit].eql? "Cancel")
+      flash[:notice] = "Combine operation is cancelled. "
+      redirect_to instructor_index_path
+    end
+
     @instructor_combine = Instructor.find(session[:instructor_combine_id])
 
     if params[:commit].eql? "Combine"
@@ -68,13 +73,6 @@ class InstructorController < ApplicationController
       redirect_to instructor_index_path
     end
 
-  end
-
-  def check_for_cancel
-    if(params.key?("cancel"))
-      flash[:notice] = "Combine operation is cancelled. "
-      redirect_to instructor_index_path
-    end
   end
   
   def create
