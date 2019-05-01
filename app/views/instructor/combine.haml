@@ -23,4 +23,5 @@
         = check_box_tag "id[]", instructor.id
         = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
         %br
+      %br
       = submit_tag "Combine", class: "btn btn-primary"

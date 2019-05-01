@@ -12,7 +12,9 @@
         = check_box_tag "instructor_ids[]", instructor.id
         = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
         %br
+      %br
       = select_tag :status, options_for_select(["Inactive", "Current", "Courtesy"], "Current"), class: "form-control"
+      %br
       = submit_tag "Update", class: "btn btn-primary"
         
         
@@ -25,7 +27,9 @@
         = check_box_tag "instructor_ids[]", instructor.id
         = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
         %br
+      %br
       = select_tag :status, options_for_select(["Inactive", "Current", "Courtesy"], "Courtesy"), class: "form-control"
+      %br
       = submit_tag "Update", class: "btn btn-primary"
 
               
@@ -38,7 +42,9 @@
         = check_box_tag "instructor_ids[]", instructor.id
         = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
         %br
+      %br
       = select_tag :status, options_for_select(["Inactive", "Current", "Courtesy"], "Inactive"), class: "form-control"
+      %br
       = submit_tag "Update", class: "btn btn-primary"
 
         
@@ -51,6 +57,8 @@
         = check_box_tag "instructor_ids[]", instructor.id
         = link_to put_last_name(instructor.name), instructor_path(id: instructor.id)
         %br
+      %br
       = select_tag :status, options_for_select(["Inactive", "Current", "Courtesy"], "NULL"), class: "form-control"
+      %br
       = submit_tag "Update", class: "btn btn-primary"
 
